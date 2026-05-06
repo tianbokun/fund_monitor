@@ -1,4 +1,3 @@
-import flet as ft
 import akshare as ak
 import pandas as pd
 import threading
@@ -28,9 +27,10 @@ class FundService:
             print(f"Error fetching data: {e}")
             return pd.DataFrame()
     
-    def get_fund_limit(self, fund_code: str) -> FundInfo:
+    def get_fund_limit(self, fund_code: str, df: pd.DataFrame = None) -> FundInfo:
         try:
-            df = ak.fund_purchase_em()
+            if df is None:
+                df = ak.fund_purchase_em()
             fund_data = df[df['基金代码'] == fund_code]
             if fund_data.empty:
                 return None
@@ -45,6 +45,26 @@ class FundService:
         except Exception as e:
             print(f"Error: {e}")
             return None
+    
+    def get_funds_batch(self, fund_codes: list) -> dict:
+        try:
+            df = ak.fund_purchase_em()
+            result = {}
+            for code in fund_codes:
+                fund_data = df[df['基金代码'] == code]
+                if not fund_data.empty:
+                    row = fund_data.iloc[0]
+                    result[code] = FundInfo(
+                        code=str(row['基金代码']),
+                        name=str(row['基金简称']),
+                        daily_limit=float(row.get('日累计限定金额', 0)),
+                        status=str(row.get('申购状态', '未知')),
+                        last_update=datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    )
+            return result
+        except Exception as e:
+            print(f"Error fetching batch data: {e}")
+            return {}
     
     def get_all_funds(self) -> pd.DataFrame:
         return self.get_fund_purchase_status()

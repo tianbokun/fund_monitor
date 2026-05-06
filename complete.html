@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>基金限购监控 - 完整功能</title>
+    <style>
+        body { font-family: Arial; max-width: 1200px; margin: 50px auto; padding: 20px; }
+        h1, h2 { color: #333; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
+        th { background-color: #f5f5f5; }
+        .empty { color: #999; font-style: italic; }
+        .orange { color: orange; }
+        .green { color: green; }
+        .red { color: red; }
+        button { padding: 8px 15px; margin: 5px; cursor: pointer; background: #1976d2; color: white; border: none; border-radius: 4px; }
+        button:hover { background: #1565c0; }
+        .tabs { margin: 20px 0; }
+        .tab-btn { padding: 10px 20px; margin-right: 5px; cursor: pointer; background: #f5f5f5; border: 1px solid #ccc; }
+        .tab-btn.active { background: #1976d2; color: white; }
+        .tab-content { display: none; margin-top: 20px; }
+        .tab-content.active { display: block; }
+    </style>
+    <script>
+        function showTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tab).classList.add('active');
+            event.target.classList.add('active');
+        }
+    </script>
+</head>
+<body>
+    <h1>基金限购监控 - 完整功能</h1>
+    
+    <div class="tabs">
+        <button class="tab-btn active" onclick="showTab('funds')">监控基金</button>
+        <button class="tab-btn" onclick="showTab('search')">搜索历史</button>
+        <button class="tab-btn" onclick="showTab('add')">添加历史</button>
+    </div>
+    
+    <div id="funds" class="tab-content active">
+        <h2>监控基金列表</h2>
+<table><tr><th>基金代码</th><th>基金名称</th><th>日限购</th><th>状态</th></tr><tr>
+            <td>019441</td>
+            <td>万家纳斯达克100指数发起式(QDII)A</td>
+            <td class="orange"><b>50</b></td>
+            <td class="green">限大额</td>
+        </tr></table>
+    </div>
+    
+    <div id="search" class="tab-content">
+        <h2>搜索历史</h2>
+<table><tr><th>搜索时间</th><th>搜索关键词</th><th>基金代码</th><th>基金简称</th><th>申购状态</th></tr><tr>
+            <td>2026-05-06 11:30:00</td>
+            <td>股票</td>
+            <td>110011</td>
+            <td>易方达中小盘混合</td>
+            <td>限制大额申购</td>
+        </tr><tr>
+            <td>2026-05-06 11:31:00</td>
+            <td>债券</td>
+            <td>003358</td>
+            <td>易方达中短期纯债债券A</td>
+            <td>开放申购</td>
+        </tr></table>
+    </div>
+    
+    <div id="add" class="tab-content">
+        <h2>添加历史</h2>
+<p class="empty">暂无添加历史</p>
+    </div>
+</body>
+</html>
